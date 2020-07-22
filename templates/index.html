@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cruiseship</title>
+</head>
+<form method="post" action="/new">
+    <p>内容<input type="text" name="text" size="30" placeholder="入力してください"></p>
+    <p>状態
+        <select name="status">
+            <option value="未実行">未実行</option>
+            <option value="実行中">実行中</option>
+            <option value="終了">終了</option>
+        </select>
+    </p>
+    <p><input type="submit" value="Send"></p>
+</form>
+
+<form action="/stoppoint" method="get">
+    <div>
+        <label for="say">What greeting do you want to say?</label>
+        <input name="say" id="say" value="Hi">
+    </div>
+    <div>
+        <label for="to">Who do you want to say it to?</label>
+        <input name="to" id="to" value="Mom">
+    </div>
+    <div>
+        <button>Send my greetings</button>
+    </div>
+</form>
+
+<body>
+    {{ .test }}
+    {{ .dataLink }}
+    <p>{{ .dataLinkLen }}</p>
+    <meta http-equiv="refresh" content="1;URL=/new">
+    <p><span id="view_clock"></span></p>    
+    <script type="text/javascript">
+        timerID = setInterval('clock()', 500); //0.5秒毎にclock()を実行
+
+        function clock() {
+            document.getElementById("view_clock").innerHTML = getNow();
+        }
+
+        function getNow() {
+            var now = new Date();
+            //var year = now.getFullYear();
+            //var mon = now.getMonth() + 1; //１を足すこと
+            //var day = now.getDate();
+            var hour = now.getHours();
+            var min = now.getMinutes();
+            var sec = now.getSeconds();
+
+            //出力用
+            //year + "年" + mon + "月" + day + "日" +
+            var s = hour + "時" + min + "分" + sec + "秒";
+            return s;
+        }
+    </script>
+
+<input type="text" id="dispvalue" value="0" />
+<input type="button" value="CountUp" onclick="document.getElementById('dispvalue').value = 1 + parseInt(document.getElementById('dispvalue').value);" />
+</body>
+
+</html>
