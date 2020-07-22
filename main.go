@@ -47,13 +47,8 @@ func main() {
 		//log.Println("http respons 200 GET")
 	})
 
-	//      問題点 -> 解決!! Foo
-	//これを、どこかの関数にいれて、何回でも使えるようにする
-	//sc = startCruise(url) " = "で初期化
-
 	sc := startCruise(url)
-	//      問題点 -> 解決!! Foo
-	// slice の0番目が表示されない
+
 	router.GET("/new", func(c *gin.Context) {
 		dataLink, owari := sc()
 		if owari == "owari" { //"owari"
