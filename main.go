@@ -8,24 +8,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func startCruise(url string) func() (string, string) {
+func startCruise(url string) func() (string, bool) {
 	dataLink := glv.GetLivingVideo(url) //動画をスクレイピングしてくる
 	log.Println("スクレイピング出来たよ！")
 	lenDataLink := len(dataLink) // 動画の本数
 	//fmt.Println(lenDataLink)
-	n := 0
-	return func() (string, string) {
+	n := -1
+	return func() (string, bool) {
 		n++
 		if n == lenDataLink {
-			return dataLink[0], "owari" //errors.New("終了")
+			return dataLink[0], false //errors.New("終了")
 		}
-		return dataLink[n], "mada"
+		return dataLink[n], true //, "mada"
 	}
 }
 func functionStartCruise(url string) {
 	//sc := startCruise(url)
 
 }
+
 func main() {
 	url := "https://virtual-youtuber.userlocal.jp/lives"
 	dataLink := glv.GetLivingVideo(url)
@@ -50,15 +51,18 @@ func main() {
 	sc := startCruise(url)
 
 	router.GET("/new", func(c *gin.Context) {
-		dataLink, owari := sc()
-		if owari == "owari" { //"owari"
+		dataLink, ok := sc()
+		if ok == false { //"owari"
 			sc = startCruise(url)
 			//startCruise(url)
-			c.HTML(200, "index.html", gin.H{"dataLink": dataLink[0]})
+			//c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
+			c.Redirect(302, "/")
 		}
-		log.Println(dataLink)
-		c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
-		//c.Redirect(302, "/")
+		if ok == true {
+			log.Println(dataLink)
+			c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
+			//c.Redirect(302, "/")
+		}
 	})
 
 	router.GET("/stoppoint", func(c *gin.Context) {
