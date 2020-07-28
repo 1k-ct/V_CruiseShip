@@ -52,11 +52,11 @@ func main() {
 
 	router.GET("/new", func(c *gin.Context) {
 		dataLink, ok := sc()
-		if ok == true {
+		if ok {
 			log.Println(dataLink)
 			c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
 			//c.Redirect(302, "/")
-		} else if ok == false { //"owari"
+		} else if !ok { //"owari"
 			sc = startCruise(url)
 			//startCruise(url)
 			//c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
