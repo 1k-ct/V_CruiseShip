@@ -23,11 +23,6 @@ func startCruise(url string) func() (string, bool) {
 	}
 }
 
-func functionStartCruise(url string) {
-	//sc := startCruise(url)
-
-}
-
 /*
 func main() {
 	url := "https://virtual-youtuber.userlocal.jp/lives"
