@@ -15,14 +15,12 @@ func Init() {
 func router() *gin.Engine {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*.html")
-	u := r.Group("/startPP")
 
-	{
-		ctrl := c.Controller{}
-		u.GET("/", ctrl.Home)
-		u.GET("/new", ctrl.VideoStart)
-		u.GET("/ggnew", ctrl.Interim)
-		u.GET("/stoppoint", ctrl.Stop)
-	}
+	ctrl := c.Controller{}
+	r.GET("/", ctrl.Home)
+	//r.GET("/new", ctrl.VideoStart)
+	r.GET("/ggnew", ctrl.Interim)
+	r.GET("/stoppoint", ctrl.Stop)
+
 	return r
 }
