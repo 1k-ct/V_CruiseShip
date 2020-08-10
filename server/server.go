@@ -14,8 +14,9 @@ func Init() {
 
 func router() *gin.Engine {
 	r := gin.Default()
-
+	r.LoadHTMLGlob("templates/*.html")
 	u := r.Group("/startPP")
+
 	{
 		ctrl := c.Controller{}
 		u.GET("/", ctrl.Home)
