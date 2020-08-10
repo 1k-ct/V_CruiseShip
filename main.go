@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
-	glv "./getlivevideo"
+	c "./controller"
 	"github.com/gin-gonic/gin"
 )
 
+/*
 func startCruise(url string) func() (string, bool) {
 	dataLink := glv.GetLivingVideo(url) //動画をスクレイピングしてくる
 	log.Println("スクレイピング出来たよ！")
@@ -22,29 +20,27 @@ func startCruise(url string) func() (string, bool) {
 		return dataLink[n], true //, "mada"
 	}
 }
+*/
 func functionStartCruise(url string) {
 	//sc := startCruise(url)
 
 }
 
+/*
 func main() {
 	url := "https://virtual-youtuber.userlocal.jp/lives"
-	dataLink := glv.GetLivingVideo(url)
 
-	for _, v := range dataLink {
-		fmt.Println(v)
-	}
-	fmt.Println(len(dataLink))
-
+	//	dataLink := glv.GetLivingVideo(url)
+	//		for _, v := range dataLink {
+	//			fmt.Println(v)
+	//		}
+	//		fmt.Println(len(dataLink))
+	//
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*.html")
 
-	hello := "hello gin"
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", gin.H{
-			"test":        hello,
-			"dataLinkLen": len(dataLink),
-		})
+		c.HTML(200, "start.html", gin.H{})
 		//log.Println("http respons 200 GET")
 	})
 
@@ -53,15 +49,19 @@ func main() {
 	router.GET("/new", func(c *gin.Context) {
 		dataLink, ok := sc()
 		if ok {
-			log.Println(dataLink)
+			//log.Println(dataLink)
 			c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
 			//c.Redirect(302, "/")
 		} else if !ok { //"owari"
 			sc = startCruise(url)
 			//startCruise(url)
 			//c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
-			c.Redirect(302, "/")
+			c.Redirect(302, "/ggnew")
 		}
+	})
+
+	router.GET("/ggnew", func(c *gin.Context) {
+		c.Redirect(302, "/new")
 	})
 
 	router.GET("/stoppoint", func(c *gin.Context) {
@@ -69,4 +69,28 @@ func main() {
 	})
 
 	router.Run()
+}
+*/
+func main() {
+	Init()
+}
+
+// Init is initialize server
+func Init() {
+	r := router()
+	r.Run()
+
+}
+
+func router() *gin.Engine {
+	r := gin.Default()
+	r.LoadHTMLGlob("templates/*.html")
+
+	ctrl := c.Controller{}
+	r.GET("/", ctrl.Home)
+	r.GET("/new", ctrl.VideoStart)
+	r.GET("/ggnew", ctrl.Interim)
+	r.GET("/stoppoint", ctrl.Stop)
+
+	return r
 }
