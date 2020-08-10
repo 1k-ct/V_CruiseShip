@@ -1,11 +1,13 @@
 package main
 
 import (
-	c "./controller"
+	"log"
+
+	c "github.com/1k-ct/V_CruiseShip/controller"
+	glv "github.com/1k-ct/V_CruiseShip/getlivevideo"
 	"github.com/gin-gonic/gin"
 )
 
-/*
 func startCruise(url string) func() (string, bool) {
 	dataLink := glv.GetLivingVideo(url) //動画をスクレイピングしてくる
 	log.Println("スクレイピング出来たよ！")
@@ -20,7 +22,7 @@ func startCruise(url string) func() (string, bool) {
 		return dataLink[n], true //, "mada"
 	}
 }
-*/
+
 func functionStartCruise(url string) {
 	//sc := startCruise(url)
 
@@ -71,8 +73,29 @@ func main() {
 	router.Run()
 }
 */
+var url string = "https://virtual-youtuber.userlocal.jp/lives"
+
 func main() {
-	Init()
+	r := gin.Default()
+	r.LoadHTMLGlob("templates/*.html")
+
+	ctrl := c.Controller{}
+	r.GET("/", ctrl.Home)
+	//r.GET("/new", ctrl.VideoStart)
+	r.GET("/ggnew", ctrl.Interim)
+	r.GET("/stoppoint", ctrl.Stop)
+
+	sc := startCruise(url)
+	r.GET("/new", func(c *gin.Context) {
+		dataLink, ok := sc()
+		if ok {
+			c.HTML(200, "index.html", gin.H{"dataLink": dataLink})
+		} else if !ok {
+			sc = startCruise(url)
+			c.Redirect(302, "/ggnew")
+		}
+	})
+	r.Run()
 }
 
 // Init is initialize server
@@ -88,7 +111,7 @@ func router() *gin.Engine {
 
 	ctrl := c.Controller{}
 	r.GET("/", ctrl.Home)
-	r.GET("/new", ctrl.VideoStart)
+	//r.GET("/new", ctrl.VideoStart)
 	r.GET("/ggnew", ctrl.Interim)
 	r.GET("/stoppoint", ctrl.Stop)
 
