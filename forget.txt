@@ -1,0 +1,5 @@
+template/index.hmtl [48] commentout 外す
+
+main.go [4] import server "gitbub.com/././.." 変更
+
+時間が経っても、継続的に出来てるか確認
