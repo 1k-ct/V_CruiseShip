@@ -10,29 +10,6 @@
 
 <body>
 
-    <p><span id="view_clock"></span></p>
-    <script type="text/javascript">
-        timerID = setInterval('clock()', 500); //0.5秒毎にclock()を実行
-
-        function clock() {
-            document.getElementById("view_clock").innerHTML = getNow();
-        }
-
-        function getNow() {
-            var now = new Date();
-            //var year = now.getFullYear();
-            //var mon = now.getMonth() + 1; //１を足すこと
-            //var day = now.getDate();
-            var hour = now.getHours();
-            var min = now.getMinutes();
-            var sec = now.getSeconds();
-
-            //出力用
-            //year + "年" + mon + "月" + day + "日" +
-            var s = hour + "時" + min + "分" + sec + "秒";
-            return s;
-        }
-    </script>
     <form method="get" action="/new">
         <p><input type="submit" value="next video"></p>
     </form>
@@ -42,9 +19,9 @@
             <button>stop point</button>
         </div>
     </form>
-    
+
     {{ .dataLink }}
-    
+
     <meta http-equiv="refresh" content="10;URL=/new">
 
 
